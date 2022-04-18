@@ -17,7 +17,7 @@
         android:name="com.rai.hearthstonecard.ui.DetailCardFragment"
         android:label="DetailCardFragment" >
         <argument
-            android:name="name_card"
-            app:argType="string" />
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>

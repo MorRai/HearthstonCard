@@ -1,6 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_card_margintop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_card_margintop"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        android:singleLine="false"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:text="name" />
+
+    <TextView
+        android:id="@+id/flavorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_card_margintop"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:singleLine="false"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:text="flavorText" />
+
+    <TextView
+        android:id="@+id/text_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_card_margintop"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:singleLine="false"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/flavorText"
+        app:layout_constraintStart_toStartOf="@+id/flavorText"
+        app:layout_constraintTop_toBottomOf="@+id/flavorText"
+        tools:text="text_card" />
+
+    <TextView
+        android:id="@+id/artistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_card_margintop"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:singleLine="false"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/text_card"
+        app:layout_constraintStart_toStartOf="@+id/text_card"
+        app:layout_constraintTop_toBottomOf="@+id/text_card"
+        tools:text="artistName" />
+
+    <TextView
+        android:id="@+id/collectible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_card_margintop"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:singleLine="false"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/artistName"
+        app:layout_constraintStart_toStartOf="@+id/artistName"
+        app:layout_constraintTop_toBottomOf="@+id/artistName"
+        tools:text="collectible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,32 +1,39 @@
 package com.rai.hearthstonecard.retrofit
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
+class OAuthInterceptor(private val tokenType: String, private val acceesToken: String) :
+    Interceptor {
+
+    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+        var request = chain.request()
+        request = request.newBuilder().header("Authorization", "$tokenType $acceesToken").build()
+        return chain.proceed(request)
+    }
+}
 
 object CardService {
 
-     private val client = OkHttpClient.Builder().addInterceptor { chain ->
-        val newRequest: Request = chain.request().newBuilder()
-            .addHeader("X-RapidAPI-Host", "omgvamp-hearthstone-v1.p.rapidapi.com")
-            .addHeader("X-RapidAPI-Key", "7ab183b67emsh3f7f3870d1ae5c6p195056jsn30fae2a34bee")
-            .build()
-        chain.proceed(newRequest)
-    }.build()
+    //var token:TokenResponse? = null
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(OAuthInterceptor("Bearer", "USS69U46Mclue3VCyuOS7t8GCm3vQMvmgs"))
+        //.addInterceptor(OAuthInterceptor(token!!.tokenType , token!!.accessToken))
+        .build()
 
     private val retrofit = Retrofit.Builder()
-            .client(client)
-            .baseUrl("https://omgvamp-hearthstone-v1.p.rapidapi.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        .client(client)
+        .baseUrl("https://us.api.blizzard.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-     private val cardApi by lazy {retrofit.create<CardApi>() }
+    private val cardApi by lazy { retrofit.create<CardApi>() }
 
-
-    fun providerCardApi() : CardApi {
+    fun providerCardApi(): CardApi {
         return cardApi
     }
 
