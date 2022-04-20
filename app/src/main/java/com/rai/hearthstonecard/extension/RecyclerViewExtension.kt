@@ -34,7 +34,11 @@ fun RecyclerView.addCardDecoration(bottomSpace: Int) {
             parent: RecyclerView,
             state: RecyclerView.State,
         ) {
-            outRect.bottom = bottomSpace
+            val count = parent.adapter?.itemCount ?: return
+            val position = getChildAdapterPosition(view)
+            if (position != count - 1) {
+                outRect.bottom = bottomSpace
+            }
         }
     })
 

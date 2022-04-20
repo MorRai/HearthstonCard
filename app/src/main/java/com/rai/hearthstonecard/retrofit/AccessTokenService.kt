@@ -1,8 +1,7 @@
 package com.rai.hearthstonecard.retrofit
 
-import retrofit2.Retrofit
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 
 object AccessTokenService {
@@ -20,5 +19,6 @@ object AccessTokenService {
     fun tokenApi(): AccessTokenApi {
         return accessTokenApi
     }
+
 
 }

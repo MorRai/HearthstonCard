@@ -10,8 +10,8 @@ interface AccessTokenApi {
     @POST("oauth/token")
     @FormUrlEncoded
     fun getToken(
-        @Field("client_id") client_id: String?,
-        @Field("client_secret") client_secret: String?,
-        @Field("grant_type") grant_type: String?,
+        @Field("client_id") client_id: String,
+        @Field("client_secret") client_secret: String,
+        @Field("grant_type") grant_type: String,
     ): Call<TokenResponse>
 }

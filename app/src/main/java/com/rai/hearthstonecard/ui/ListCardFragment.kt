@@ -1,5 +1,6 @@
 package com.rai.hearthstonecard.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,10 @@ class ListCardFragment : Fragment() {
     private var currentCall: Call<Cards>? = null
     private var currentPage = 1
 
+    private val preferences by lazy {
+        requireContext().getSharedPreferences(USER_TOKEN, Context.MODE_PRIVATE)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +46,7 @@ class ListCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getToken()
         with(binding) {
             val adapter =
                 CardAdapter(requireContext()) {
@@ -55,7 +61,7 @@ class ListCardFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = layoutManager
             recyclerView.addCardDecoration(SPACE_SIZE)//правда в данном случае не особо нужен
-            recyclerView.addPaginationScrollListener(layoutManager, 20) {
+            recyclerView.addPaginationScrollListener(layoutManager, ITEM_TO_LOAD) {
                 if (currentCall == null) {
                     swipeLayout.isRefreshing = true
                     getCurrentCall(adapter)
@@ -66,8 +72,44 @@ class ListCardFragment : Fragment() {
         }
     }
 
+    private fun getToken() {
+        val tokenCall = AccessTokenService.tokenApi().getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE)
+        tokenCall.enqueue(object : Callback<TokenResponse> {
+            override fun onResponse(
+                call: Call<TokenResponse>,
+                response: Response<TokenResponse>,
+            ) {
+                if (response.isSuccessful) {
+                    val tokenResponse = response.body() ?: return
+                    preferences
+                        .edit()
+                        .putString(USER_TOKEN, tokenResponse.accessToken)
+                        .apply()
+                } else {
+                    Toast.makeText(context,
+                        "Failure while requesting token",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
+                Toast.makeText(context,
+                    "Failure while requesting token",
+                    Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
     private fun getCurrentCall(adapter: CardAdapter) {
-        currentCall = CardService.providerCardApi().getCards(currentPage)
+        val token = preferences.getString(USER_TOKEN, "") ?: ""
+        if (token == "") {
+            Toast.makeText(context,
+                "Invalid token",
+                Toast.LENGTH_LONG).show()
+            return
+        }
+        currentCall = CardService.providerCardApi(token).getCards(currentPage)
         currentCall?.enqueue(object : Callback<Cards> {
             override fun onResponse(call: Call<Cards>, response: Response<Cards>) {
                 if (response.isSuccessful) {
@@ -92,7 +134,9 @@ class ListCardFragment : Fragment() {
 
             override fun onFailure(call: Call<Cards>, t: Throwable) {
                 currentCall = null
-                t.printStackTrace()
+                Toast.makeText(context,
+                    "Failure while requesting cards",
+                    Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -106,6 +150,11 @@ class ListCardFragment : Fragment() {
 
     companion object {
         private const val SPACE_SIZE = 25
+        private const val CLIENT_ID = "d35ff44a403649d9b8834a4b12c67e16"
+        private const val CLIENT_SECRET = "a6lyWcR3E8ZWaMJYmwo55XrjaRG41IDW"
+        private const val ITEM_TO_LOAD = 20
+        private const val GRANT_TYPE = "client_credentials"
+        private const val USER_TOKEN = "user_token"
     }
 
 }
