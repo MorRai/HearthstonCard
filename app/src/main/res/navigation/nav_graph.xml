@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listCardFragment">
+
+    <fragment
+        android:id="@+id/listCardFragment"
+        android:name="com.rai.hearthstonecard.ui.ListCardFragment"
+        android:label="ListCardFragment" >
+        <action
+            android:id="@+id/action_listCardFragment_to_detailCardFragment"
+            app:destination="@id/detailCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCardFragment"
+        android:name="com.rai.hearthstonecard.ui.DetailCardFragment"
+        android:label="DetailCardFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+</navigation>
