@@ -22,7 +22,7 @@ class CardRepository(
         }
 
     }
-
+    suspend fun getCardFromDao(id: Int) = cardDatabase.cardDao().getCard(id)
 
     suspend fun getCards(page: Int) : List<Card> {
 
@@ -34,4 +34,5 @@ class CardRepository(
              cardDatabase.cardDao().getAll()
         }
     }
+    suspend fun getCardsFromDao() = cardDatabase.cardDao().getAll()
 }

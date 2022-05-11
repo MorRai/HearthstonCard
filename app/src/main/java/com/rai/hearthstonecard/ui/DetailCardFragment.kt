@@ -58,9 +58,10 @@ class DetailCardFragment : Fragment() {
             toolbar.setupWithNavController(findNavController())
 
             viewLifecycleOwner.lifecycleScope.launch {
-                val card = viewModel.retrieveCard(id)
+                var card = viewModel.retrieveCardFromDao(id)
+                bind(card)
                 try {
-                    val card = viewModel.retrieveCard(id)
+                    card = viewModel.retrieveCard(id)
                     bind(card)
 
                 } catch (e: Exception) {

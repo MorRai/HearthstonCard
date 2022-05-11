@@ -11,8 +11,17 @@ class CardViewModel(private val cardRepository: CardRepository) : ViewModel() {
         return cardRepository.getCards(page)
     }
 
+    suspend fun getAllCardsFromDao(): List<Card> {
+        return cardRepository.getCardsFromDao()
+    }
+
+
     suspend fun retrieveCard(id: Int): Card {
         return cardRepository.getCard(id)
+    }
+
+    suspend fun retrieveCardFromDao(id: Int): Card {
+        return cardRepository.getCardFromDao(id)
     }
 
 }

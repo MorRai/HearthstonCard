@@ -64,7 +64,9 @@ class ListCardFragment : Fragment() {
             recyclerView.addCardDecoration(SPACE_SIZE)//правда в данном случае не особо нужен
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
-                    val cards = viewModel.getAllCards(1).map { Item.Content(it) } + Item.Loading
+                    var cards = viewModel.getAllCardsFromDao().map { Item.Content(it) } + Item.Loading
+                    adapter.submitList(cards)
+                    cards = viewModel.getAllCards(1).map { Item.Content(it) } + Item.Loading
                     adapter.submitList(cards)
 
                 } catch (e: Exception) {
