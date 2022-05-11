@@ -3,4 +3,5 @@
     <string name="card">Card</string>
     <string name="collectible">Collectible</string>
     <string name="card_list">Card list</string>
+    <string name="error_getcards">Ошибка получения данных карты! 1$%s</string>
 </resources>

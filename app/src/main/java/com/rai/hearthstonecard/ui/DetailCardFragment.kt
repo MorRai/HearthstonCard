@@ -1,24 +1,26 @@
 package com.rai.hearthstonecard.ui
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import com.rai.hearthstonecard.HearthstoneApplication
+import com.rai.hearthstonecard.R
 import com.rai.hearthstonecard.databinding.FragmentDetailCardBinding
-import com.rai.hearthstonecard.retrofit.CardItem
-import com.rai.hearthstonecard.retrofit.CardService
-import com.rai.hearthstonecard.retrofit.Cards
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.rai.hearthstonecard.retrofit.Card
+import com.rai.hearthstonecard.viewmodels.CardViewModel
+import com.rai.hearthstonecard.viewmodels.CardViewModelFactory
+import kotlinx.coroutines.launch
+
 
 class DetailCardFragment : Fragment() {
 
@@ -28,10 +30,11 @@ class DetailCardFragment : Fragment() {
             "View was destroyed"
         }
 
-    private var currentCall: Call<CardItem.Card>? = null
 
-    private val preferences by lazy {
-        requireContext().getSharedPreferences(USER_TOKEN, Context.MODE_PRIVATE)
+    private val viewModel: CardViewModel by activityViewModels {
+        CardViewModelFactory(
+            (requireActivity().application as HearthstoneApplication).cardRepository
+        )
     }
 
     private val args by navArgs<DetailCardFragmentArgs>()
@@ -49,60 +52,46 @@ class DetailCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = args.id
-        val token = preferences.getString(USER_TOKEN, "") ?: ""
-        if (token == "") {
-            Toast.makeText(context,
-                "Invalid token",
-                Toast.LENGTH_LONG).show()
-            return
-        }
+
         with(binding) {
 
             toolbar.setupWithNavController(findNavController())
 
-            currentCall = CardService.providerCardApi(token).getCard(id)
-            currentCall?.enqueue(object : Callback<CardItem.Card> {
-                @SuppressLint("SetTextI18n")
-                override fun onResponse(
-                    call: Call<CardItem.Card>,
-                    response: Response<CardItem.Card>,
-                ) {
-                    if (response.isSuccessful) {
-                        val card = response.body() ?: return
-                        imageView.load(card.image)
-                        name.text = card.name
-                        flavorText.text = card.flavorText
-                        textCard.text = card.text.replace("<b>", "").replace("</b>", "")
-                        artistName.text = AUTHOR + card.artistName
-                        if (card.collectible == 1) {
-                            collectible.text = COLLECTIBLE
-                        }
-                    } else {
-                        Toast.makeText(context,
-                            "Failure while requesting cards",
-                            Toast.LENGTH_LONG).show()
-                    }
-                }
+            viewLifecycleOwner.lifecycleScope.launch {
+                val card = viewModel.retrieveCard(id)
+                try {
+                    val card = viewModel.retrieveCard(id)
+                    bind(card)
 
-                override fun onFailure(call: Call<CardItem.Card>, t: Throwable) {
-                    Toast.makeText(context,
-                        "Failure while requesting cards",
-                        Toast.LENGTH_LONG).show()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.error_getcards, e.message), Toast.LENGTH_LONG).show()
                 }
-            })
+            }
+        }
+    }
+
+    fun bind(card: Card){
+        with(binding){
+            imageView.load(card.image)
+            name.text = card.name
+            flavorText.text = card.flavorText
+            textCard.text = Html.fromHtml(card.text, Html.FROM_HTML_MODE_COMPACT)
+            artistName.text = AUTHOR.format(card.artistName)
+            if (card.collectible == 1) {
+                collectible.text = COLLECTIBLE
+            }
         }
     }
 
     companion object {
         private const val COLLECTIBLE = "Collectible"
-        private const val AUTHOR = "Author: "
-        private const val USER_TOKEN = "user_token"
+        private const val AUTHOR = "Author: %s"
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        currentCall?.cancel()
     }
 
 }
