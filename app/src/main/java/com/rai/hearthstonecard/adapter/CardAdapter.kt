@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rai.hearthstonecard.databinding.ItemCardBinding
 import com.rai.hearthstonecard.databinding.ItemLoadingBinding
-import com.rai.hearthstonecard.retrofit.Card
-import com.rai.hearthstonecard.retrofit.Item
+import com.rai.hearthstonecard.model.Item
 
 
 class CardAdapter(
     context: Context,
-    private val onItemClicked: (Item.Content<Card>) -> Unit,
-) : ListAdapter<Item<*>, RecyclerView.ViewHolder>(DIFF_UTIL) {
+    private val onItemClicked: (Item.Content) -> Unit,
+) : ListAdapter<Item, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
     //есть устойчивое чувство что что то не то делаю с Item, но вроде работает
     private val layoutInflater = LayoutInflater.from(context)
@@ -47,7 +46,7 @@ class CardAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val cardViewHolder = holder as? CardViewHolder ?: return
-        val item = getItem(position) as? Item.Content<Card> ?: return
+        val item = getItem(position) as? Item.Content ?: return
         cardViewHolder.bind(item) {
             onItemClicked(it)
         }
@@ -58,12 +57,12 @@ class CardAdapter(
         private const val CARD_TYPE = 0
         private const val LOADING_TYPE = 1
 
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Item<*>>() {
-            override fun areItemsTheSame(oldItem: Item<*>, newItem: Item<*>): Boolean {
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<Item>() {
+            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Item<*>, newItem: Item<*>): Boolean {
+            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
                 return oldItem == newItem
             }
         }
@@ -74,7 +73,7 @@ class CardViewHolder(
     private val binding: ItemCardBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Item.Content<Card>, onItemClicked: (Item.Content<Card>) -> Unit) {
+    fun bind(item: Item.Content, onItemClicked: (Item.Content) -> Unit) {
         binding.imageCard.load(item.data.image)
         itemView.setOnClickListener {
             onItemClicked(item)

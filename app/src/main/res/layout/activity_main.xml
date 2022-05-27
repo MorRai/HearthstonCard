@@ -8,5 +8,5 @@
     android:id="@+id/container"
     app:navGraph="@navigation/nav_graph"
     app:defaultNavHost="true"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 </androidx.fragment.app.FragmentContainerView>

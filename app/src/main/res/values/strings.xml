@@ -4,4 +4,6 @@
     <string name="collectible">Collectible</string>
     <string name="card_list">Card list</string>
     <string name="error_getcards">Ошибка получения данных карты! 1$%s</string>
+    <string name="loading">загрузка</string>
+    <string name="author_value">Author: %s</string>
 </resources>
