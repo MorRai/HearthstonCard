@@ -1,6 +1,6 @@
-package com.rai.hearthstonecard.koin
+package com.rai.hearthstonecard.data.koin
 
-import com.rai.hearthstonecard.retrofit.AccessTokenApi
+import com.rai.hearthstonecard.data.api.AccessTokenApi
 import kotlinx.coroutines.runBlocking
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -13,7 +13,7 @@ private const val CLIENT_ID = "12c065f57d084154838ac41b4a194ff5"
 private const val CLIENT_SECRET = "sfu7x9nl3hjXVT1A4FJ7zkHtrqxmYc86"
 private const val GRANT_TYPE = "client_credentials"
 
-val accessTokenServiceModule = module {
+internal val accessTokenServiceModule = module {
     single(named("accessTokenRetrofit")) {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())

@@ -1,10 +1,10 @@
-package com.rai.hearthstonecard.koin
+package com.rai.hearthstonecard.data.koin
 
 import androidx.room.Room
-import com.rai.hearthstonecard.model.ClassPersonDatabase
+import com.rai.hearthstonecard.data.database.ClassPersonDatabase
 import org.koin.dsl.module
 
-val classPersonDatabaseModule = module {
+internal val classesDatabaseModule = module {
     single {
         Room.databaseBuilder(
             get(),
@@ -15,4 +15,3 @@ val classPersonDatabaseModule = module {
             .build()
     }
 }
-
