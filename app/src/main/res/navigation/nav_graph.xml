@@ -12,7 +12,7 @@
             android:id="@+id/action_listCardFragment_to_detailCardFragment"
             app:destination="@id/detailCardFragment" />
         <argument android:name="classPerson"
-            app:argType="com.rai.hearthstonecard.model.ClassPerson" />
+            app:argType="com.rai.hearthstonecard.domain.model.ClassPerson" />
     </fragment>
     <fragment
         android:id="@+id/detailCardFragment"

@@ -14,12 +14,13 @@ import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.rai.hearthstonecard.R
 import com.rai.hearthstonecard.databinding.FragmentDetailCardBinding
-import com.rai.hearthstonecard.retrofit.Card
+import com.rai.hearthstonecard.domain.model.Card
 import com.rai.hearthstonecard.util.LceState
 import com.rai.hearthstonecard.viewmodels.DetailCardViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class DetailCardFragment : Fragment() {
@@ -31,7 +32,9 @@ class DetailCardFragment : Fragment() {
         }
 
 
-    private val viewModel by viewModel<DetailCardViewModel>()
+    private val viewModel by viewModel<DetailCardViewModel>{
+        parametersOf(args.id)
+    }
 
     private val args by navArgs<DetailCardFragmentArgs>()
 
@@ -47,13 +50,10 @@ class DetailCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = args.id
 
         with(binding) {
 
             toolbar.setupWithNavController(findNavController())
-
-            viewModel.cardIdStateFlow.value = id
 
             lifecycleScope.launch {
                 viewModel.cardFlow.collect { lce ->

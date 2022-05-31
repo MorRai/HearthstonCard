@@ -17,7 +17,6 @@ class CardAdapter(
     private val onItemClicked: (Item.Content) -> Unit,
 ) : ListAdapter<Item, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
-    //есть устойчивое чувство что что то не то делаю с Item, но вроде работает
     private val layoutInflater = LayoutInflater.from(context)
 
     override fun getItemViewType(position: Int): Int {

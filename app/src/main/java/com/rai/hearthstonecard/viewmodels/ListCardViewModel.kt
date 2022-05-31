@@ -1,9 +1,9 @@
 package com.rai.hearthstonecard.viewmodels
 
 import androidx.lifecycle.*
-import com.rai.hearthstonecard.model.ClassPerson
-import com.rai.hearthstonecard.repository.CardRepository
-import com.rai.hearthstonecard.retrofit.Card
+import com.rai.hearthstonecard.domain.model.Card
+import com.rai.hearthstonecard.domain.model.ClassPerson
+import com.rai.hearthstonecard.domain.repository.CardRepository
 import com.rai.hearthstonecard.util.LceState
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*

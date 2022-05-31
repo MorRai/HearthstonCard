@@ -1,6 +1,7 @@
 package com.rai.hearthstonecard.model
 
-import com.rai.hearthstonecard.retrofit.Card
+import com.rai.hearthstonecard.domain.model.Card
+
 
 sealed class Item {
 

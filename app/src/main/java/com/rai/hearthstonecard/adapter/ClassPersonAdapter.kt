@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rai.hearthstonecard.databinding.ItemCardBinding
-import com.rai.hearthstonecard.model.ClassPerson
+import com.rai.hearthstonecard.domain.model.ClassPerson
 
 
 class ClassPersonAdapter(

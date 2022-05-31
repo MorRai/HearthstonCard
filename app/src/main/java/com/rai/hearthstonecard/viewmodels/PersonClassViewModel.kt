@@ -2,7 +2,7 @@ package com.rai.hearthstonecard.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rai.hearthstonecard.repository.CardRepository
+import com.rai.hearthstonecard.domain.repository.CardRepository
 import com.rai.hearthstonecard.util.LceState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
