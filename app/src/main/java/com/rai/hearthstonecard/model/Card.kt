@@ -17,21 +17,17 @@ data class Card(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "image")
-    val image: String,
+    val image: String?,
     @ColumnInfo(name = "flavor_text")
-    val flavorText: String,
+    val flavorText: String?,
     @ColumnInfo(name = "text")
-    val text: String,
+    val text: String?,
     @ColumnInfo(name = "artist_name")
-    val artistName: String,
+    val artistName: String?,
     @ColumnInfo(name = "collectible")
-    val collectible: Int,
-)
+    val collectible: Int?,
+    @ColumnInfo(name = "class_id")
+    val classId: Int?
+    )
 
-sealed class Item<T> {
-
-    class Content<T>(val data: T): Item<T>()
-
-    object Loading : Item<Nothing>()
-}
 

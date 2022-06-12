@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/listCardFragment">
+    app:startDestination="@id/classPersonFragment">
 
     <fragment
         android:id="@+id/listCardFragment"
@@ -11,6 +11,8 @@
         <action
             android:id="@+id/action_listCardFragment_to_detailCardFragment"
             app:destination="@id/detailCardFragment" />
+        <argument android:name="classPerson"
+            app:argType="com.rai.hearthstonecard.model.ClassPerson" />
     </fragment>
     <fragment
         android:id="@+id/detailCardFragment"
@@ -19,5 +21,13 @@
         <argument
             android:name="id"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/classPersonFragment"
+        android:name="com.rai.hearthstonecard.ui.ClassPersonFragment"
+        android:label="ClassPersonFragment" >
+        <action
+            android:id="@+id/action_classPersonFragment_to_listCardFragment"
+            app:destination="@id/listCardFragment" />
     </fragment>
 </navigation>

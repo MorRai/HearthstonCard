@@ -17,7 +17,7 @@ interface CardDao {
     @Query("SELECT * from hearthstone_card WHERE id = :id")
     suspend fun getCard(id: Int): Card
 
-    @Query("SELECT * from hearthstone_card")
-    suspend fun getAll(): List<Card>
+    @Query("SELECT * from hearthstone_card  WHERE class_id = :classId")
+    suspend fun getCards(classId: Int): List<Card>
 
 }
