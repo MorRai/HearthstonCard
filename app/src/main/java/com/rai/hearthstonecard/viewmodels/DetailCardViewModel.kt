@@ -2,30 +2,16 @@ package com.rai.hearthstonecard.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rai.hearthstonecard.domain.repository.CardRepository
-import com.rai.hearthstonecard.util.LceState
+import com.rai.hearthstonecard.domain.model.LceState
+import com.rai.hearthstonecard.domain.usecase.GetCardUseCase
 import kotlinx.coroutines.flow.*
 
 class DetailCardViewModel(
-    private val cardRepository: CardRepository,
-    private val cardId: Int,
+    getCardUseCase: GetCardUseCase,
+    cardId: Int,
 ) : ViewModel() {
 
-    val cardFlow = flow {
-        val card = cardRepository.getCard(cardId)
-            .fold(
-                onSuccess = { card ->
-                    LceState.Content(card)
-                },
-                onFailure = { err ->
-                    LceState.Error(err)
-                }
-            )
-        emit(card)
-
-    }.onStart {
-        emit(LceState.Content(cardRepository.getCardFromDao(cardId)))
-    }.stateIn(
+    val cardFlow = getCardUseCase.invoke(cardId).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = LceState.Loading

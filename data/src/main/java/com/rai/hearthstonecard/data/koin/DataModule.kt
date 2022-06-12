@@ -6,7 +6,8 @@ val dataModule = module {
     includes(
         accessTokenServiceModule,
         cardDatabaseModule,
-        cardRepositoryModule,
+        cardRemoteRepositoryModule,
+        cardLocalRepositoryModule,
         classesDatabaseModule,
         networkModule,
         useCaseModule

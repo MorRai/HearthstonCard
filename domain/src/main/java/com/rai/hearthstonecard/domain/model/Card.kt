@@ -8,5 +8,8 @@ data class Card(
     val text: String?,
     val artistName: String?,
     val collectible: Int?,
-    val classId: Int?
+    val classId: Int?,
+    val mana: String?,
+    val attack: String?,
+    val health: String?
 )

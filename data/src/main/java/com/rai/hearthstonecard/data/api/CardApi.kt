@@ -19,7 +19,10 @@ internal interface CardApi {
     suspend fun getCards(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("class") classSlug: String
+        @Query("class") classSlug: String,
+        @Query("manaCost") mana: String,
+        @Query("attack") attack: String,
+        @Query("health") health: String
     )
     : CardsDTO
 

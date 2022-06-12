@@ -2,6 +2,7 @@ package com.rai.hearthstonecard
 
 import android.graphics.Rect
 import android.view.View
+import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -12,6 +13,7 @@ fun RecyclerView.addPaginationScrollListener(
     onLoadMore: () -> Unit,
 ) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
@@ -22,6 +24,7 @@ fun RecyclerView.addPaginationScrollListener(
                 onLoadMore()
             }
         }
+
     })
 }
 

@@ -1,6 +1,5 @@
 package com.rai.hearthstonecard.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rai.hearthstonecard.R
 import com.rai.hearthstonecard.adapter.ClassPersonAdapter
 import com.rai.hearthstonecard.databinding.FragmentListClassesBinding
-import com.rai.hearthstonecard.util.LceState
+import com.rai.hearthstonecard.domain.model.LceState
 import com.rai.hearthstonecard.viewmodels.PersonClassViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,7 +39,6 @@ class ClassPersonFragment : Fragment() {
             .root
     }
 
-    @SuppressLint("ShowToast")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -57,15 +55,16 @@ class ClassPersonFragment : Fragment() {
                 viewModel.classesFlow.collect { lce ->
                     when (lce) {
                         is LceState.Content -> {
+                            hideProgressBar()
                             adapter.submitList(lce.data)
                         }
                         is LceState.Error -> {
+                            hideProgressBar()
                             Toast.makeText(requireContext(),
                                 lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
                         }
                         LceState.Loading -> {
-                            Toast.makeText(requireContext(),
-                                getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                            showProgressBar()
                         }
                     }
                 }
@@ -73,10 +72,17 @@ class ClassPersonFragment : Fragment() {
         }
     }
 
+    private fun hideProgressBar() {
+        binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.paginationProgressBar.visibility = View.VISIBLE
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

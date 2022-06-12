@@ -1,5 +1,6 @@
 package com.rai.hearthstonecard.data.koin
 
+import com.rai.hearthstonecard.BuildConfig
 import com.rai.hearthstonecard.data.api.CardApi
 import com.rai.hearthstonecard.data.api.TokenAuthenticator
 import com.rai.hearthstonecard.data.api.TokenPrefs
@@ -13,7 +14,7 @@ internal val networkModule = module {
     single {
 
         OkHttpClient.Builder()
-            .authenticator(TokenAuthenticator(get()))
+            .authenticator(TokenAuthenticator(TokenPrefs(get())))
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder().addHeader("Authorization", "Bearer ${TokenPrefs(get()).fetchAuthToken()}").build()
                 chain.proceed(request)
@@ -24,7 +25,7 @@ internal val networkModule = module {
     single {
         Retrofit.Builder()
             .client(get())
-            .baseUrl("https://us.api.blizzard.com/")
+            .baseUrl(BuildConfig.BASE_URL_CARD)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

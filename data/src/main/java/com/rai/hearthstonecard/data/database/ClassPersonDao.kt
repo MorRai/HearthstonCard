@@ -18,7 +18,7 @@ internal interface ClassPersonDao {
     @Query("SELECT * from hearthstone_classes WHERE id = :id")
     suspend fun getClass(id: Int): ClassPersonEntity
 
-    @Query("SELECT * from hearthstone_classes")
+    @Query("SELECT * from hearthstone_classes order by name asc")
     suspend fun getClasses(): List<ClassPersonEntity>
 
 

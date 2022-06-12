@@ -1,17 +1,15 @@
 package com.rai.hearthstonecard.data.api
 
 import android.content.Context
-import com.rai.hearthstonecard.R
-
 
 internal class TokenPrefs(context: Context) {
 
     private val prefs = context.getSharedPreferences("test", Context.MODE_PRIVATE)
 
     fun saveAuthToken(token: String) {
-        val editor = prefs.edit()
-        editor.putString(USER_TOKEN, token)
-        editor.apply()
+        prefs.edit()
+        .putString(USER_TOKEN, token)
+        .apply()
     }
 
     fun fetchAuthToken(): String? {
@@ -19,7 +17,7 @@ internal class TokenPrefs(context: Context) {
     }
 
     companion object {
-        const val USER_TOKEN = "user_token"
+        private const val USER_TOKEN = "user_token"
     }
 
 }

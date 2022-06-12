@@ -1,6 +1,5 @@
 package com.rai.hearthstonecard.data.api
 
-import android.content.Context
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -10,9 +9,7 @@ import org.koin.core.component.get
 import org.koin.core.qualifier.named
 
 
-internal class TokenAuthenticator(context: Context) : Authenticator, KoinComponent {
-
-    private val tokenPreferences = TokenPrefs(context)
+internal class TokenAuthenticator(private val tokenPreferences: TokenPrefs) : Authenticator, KoinComponent {
 
     override fun authenticate(route: Route?, response: Response): Request? {
 

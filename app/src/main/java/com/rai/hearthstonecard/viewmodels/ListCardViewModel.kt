@@ -3,48 +3,47 @@ package com.rai.hearthstonecard.viewmodels
 import androidx.lifecycle.*
 import com.rai.hearthstonecard.domain.model.Card
 import com.rai.hearthstonecard.domain.model.ClassPerson
-import com.rai.hearthstonecard.domain.repository.CardRepository
-import com.rai.hearthstonecard.util.LceState
+import com.rai.hearthstonecard.domain.model.Filters
+import com.rai.hearthstonecard.domain.model.LceState
+import com.rai.hearthstonecard.domain.usecase.GetCardListUseCase
+import com.rai.hearthstonecard.domain.usecase.GetCardsDaoUseCase
+import com.rai.hearthstonecard.domain.usecase.SaveCardUseCase
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
 class ListCardViewModel(
-    private val cardRepository: CardRepository,
+    private val getCardListUseCase: GetCardListUseCase,
+    private val getCardsDaoUseCase: GetCardsDaoUseCase,
+    private val saveCardUseCase: SaveCardUseCase,
     private val classPerson: ClassPerson,
 ) : ViewModel() {
+    //надо как то нормально с лсе сделать и юзкейсами
+    private val filter = Filters("", "", "")
+    private val filterQuery = MutableStateFlow(filter)
+
+
     private var currentPage = 1
-    private var pageSize = 50
     private var isLoading = false
 
     private val loadCardsFlow = MutableSharedFlow<Unit>(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    private var listCard: List<Card> = listOf()
+    private val mutableState = MutableStateFlow<LceState<List<Card>>>(LceState.Loading)
+    val state: StateFlow<LceState<List<Card>>>
+        get() = mutableState
 
-    val cardsFlow = loadCardsFlow
-        .filter { !isLoading }
+    val cardsFlow = filterQuery
         .onEach {
-            isLoading = true
+            currentPage = 1
+            isLoading = false
         }
-        .map {
-            cardRepository.getCards(currentPage, pageSize, classPerson.slug ?: "")
-                .apply { isLoading = false }
-                .fold(
-                    onSuccess = {
-                        cardRepository.insertCards(it)
-                        currentPage++
-                        listCard = listCard + it
-                        LceState.Content(listCard)
-                    },
-                    onFailure = {
-                        LceState.Error(it)
-                    }
-                )
+        .flatMapLatest { query ->
+            cardDataFlow(query)
         }
         .onStart {
-            emit(LceState.Content(cardRepository.getCardsFromDao(classPerson.id)))
             onLoadCards()
+            emit(getCardsDaoUseCase.invoke(classPerson.id))
         }
         .shareIn(
             scope = viewModelScope,
@@ -54,6 +53,42 @@ class ListCardViewModel(
 
     fun onLoadCards() {
         loadCardsFlow.tryEmit(Unit)
+    }
+
+    fun onFilterChanged(filter: Filters) {
+        filterQuery.value = filter
+    }
+
+    fun getFilter():Filters {
+        return filterQuery.value
+    }
+
+    private fun cardDataFlow(filterQuery: Filters): Flow<List<Card>> {
+        return loadCardsFlow
+            .filter { !isLoading }
+            .onEach {
+                isLoading = true
+                mutableState.value = LceState.Loading
+            }
+            .map {
+                getCardListUseCase.invoke(filterQuery,classPerson,currentPage)
+                    .apply { isLoading = false }
+                    .fold(
+                        onSuccess = {
+                            saveCardUseCase.invoke(it)
+                            currentPage++
+                            mutableState.value = LceState.Content(it)
+                            it
+
+                        },
+                        onFailure = {
+                            mutableState.value = LceState.Error(it)
+                            emptyList()
+
+                        }
+                    )
+            }
+            .runningReduce { accumulator, value -> accumulator + value }
     }
 
 }

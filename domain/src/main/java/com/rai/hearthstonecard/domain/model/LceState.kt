@@ -1,4 +1,4 @@
-package com.rai.hearthstonecard.util
+package com.rai.hearthstonecard.domain.model
 
 sealed class LceState<out T> {
 

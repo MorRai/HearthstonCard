@@ -13,6 +13,9 @@
             app:destination="@id/detailCardFragment" />
         <argument android:name="classPerson"
             app:argType="com.rai.hearthstonecard.domain.model.ClassPerson" />
+        <action
+            android:id="@+id/action_listCardFragment_to_filterCardFragment"
+            app:destination="@id/filterCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailCardFragment"
@@ -30,4 +33,12 @@
             android:id="@+id/action_classPersonFragment_to_listCardFragment"
             app:destination="@id/listCardFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/filterCardFragment"
+        android:name="com.rai.hearthstonecard.ui.FilterCardFragment"
+        android:label="FilterCardFragment" >
+        <argument
+            android:name="filter"
+            app:argType="com.rai.hearthstonecard.domain.model.Filters" />
+    </dialog>
 </navigation>

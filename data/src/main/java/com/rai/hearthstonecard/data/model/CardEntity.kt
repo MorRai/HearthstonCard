@@ -24,5 +24,11 @@ internal data class CardEntity(
     @ColumnInfo(name = "collectible")
     val collectible: Int?,
     @ColumnInfo(name = "class_id")
-    val classId: Int?
+    val classId: Int?,
+    @ColumnInfo(name = "mana")
+    val mana: String?,
+    @ColumnInfo(name = "attack")
+    val attack: String?,
+    @ColumnInfo(name = "health")
+    val health: String?
 )

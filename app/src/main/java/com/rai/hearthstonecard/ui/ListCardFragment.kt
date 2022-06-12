@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,8 +17,8 @@ import com.rai.hearthstonecard.adapter.CardAdapter
 import com.rai.hearthstonecard.addCardDecoration
 import com.rai.hearthstonecard.addPaginationScrollListener
 import com.rai.hearthstonecard.databinding.FragmentListCardBinding
-import com.rai.hearthstonecard.model.Item
-import com.rai.hearthstonecard.util.LceState
+import com.rai.hearthstonecard.domain.model.Filters
+import com.rai.hearthstonecard.domain.model.LceState
 import com.rai.hearthstonecard.viewmodels.ListCardViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,6 +40,13 @@ class ListCardFragment : Fragment() {
         parametersOf(args.classPerson)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener("request_key") { _, bundle ->
+            viewModel.onFilterChanged(bundle.getSerializable("extra_key") as Filters)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +65,7 @@ class ListCardFragment : Fragment() {
             val adapter =
                 CardAdapter(requireContext()) {
                     findNavController().navigate(ListCardFragmentDirections.actionListCardFragmentToDetailCardFragment(
-                        it.data.id))
+                        it.id))
                 }
             swipeLayout.setOnRefreshListener {
                 swipeLayout.isRefreshing = false
@@ -70,28 +78,48 @@ class ListCardFragment : Fragment() {
                 viewModel.onLoadCards()
             }
 
-            viewModel.cardsFlow.onEach { lce ->
+
+            toolbar.menu.findItem(R.id.action_filters)
+                .setOnMenuItemClickListener {
+                    findNavController().navigate(ListCardFragmentDirections.actionListCardFragmentToFilterCardFragment(viewModel.getFilter()))
+                    true
+                }
+
+            viewModel.state.onEach { lce ->
                 when (lce) {
                     is LceState.Content -> {
-                        adapter.submitList(lce.data.map { Item.Content(it) } + Item.Loading)
+                        hideProgressBar()
                     }
                     is LceState.Error -> {
+                        hideProgressBar()
                         Toast.makeText(requireContext(),
                             lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
                     }
                     LceState.Loading -> {
-                        Toast.makeText(requireContext(),
-                            getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                        showProgressBar()
                     }
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        }
+            viewModel.cardsFlow.onEach {
+                adapter.submitList(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+            }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    private fun hideProgressBar() {
+        binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.paginationProgressBar.visibility = View.VISIBLE
     }
 
     companion object {

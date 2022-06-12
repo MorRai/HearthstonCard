@@ -15,7 +15,7 @@ import coil.load
 import com.rai.hearthstonecard.R
 import com.rai.hearthstonecard.databinding.FragmentDetailCardBinding
 import com.rai.hearthstonecard.domain.model.Card
-import com.rai.hearthstonecard.util.LceState
+import com.rai.hearthstonecard.domain.model.LceState
 import com.rai.hearthstonecard.viewmodels.DetailCardViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -59,15 +59,16 @@ class DetailCardFragment : Fragment() {
                 viewModel.cardFlow.collect { lce ->
                     when (lce) {
                         is LceState.Content -> {
+                            hideProgressBar()
                             bind(lce.data)
                         }
                         is LceState.Error -> {
+                            hideProgressBar()
                             Toast.makeText(requireContext(),
                                 lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
                         }
                         LceState.Loading -> {
-                            Toast.makeText(requireContext(),
-                                getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                            showProgressBar()
                         }
                     }
                 }
@@ -86,6 +87,14 @@ class DetailCardFragment : Fragment() {
                 collectible.text = requireContext().getString(R.string.collectible)
             }
         }
+    }
+
+    private fun hideProgressBar() {
+        binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.paginationProgressBar.visibility = View.VISIBLE
     }
 
     companion object {
