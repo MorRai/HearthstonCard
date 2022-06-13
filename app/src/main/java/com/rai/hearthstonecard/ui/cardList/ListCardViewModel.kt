@@ -1,4 +1,4 @@
-package com.rai.hearthstonecard.viewmodels
+package com.rai.hearthstonecard.ui.cardList
 
 import androidx.lifecycle.*
 import com.rai.hearthstonecard.domain.model.Card

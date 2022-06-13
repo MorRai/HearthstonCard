@@ -1,4 +1,4 @@
-package com.rai.hearthstonecard.ui
+package com.rai.hearthstonecard.ui.cardList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +19,6 @@ import com.rai.hearthstonecard.addPaginationScrollListener
 import com.rai.hearthstonecard.databinding.FragmentListCardBinding
 import com.rai.hearthstonecard.domain.model.Filters
 import com.rai.hearthstonecard.domain.model.LceState
-import com.rai.hearthstonecard.viewmodels.ListCardViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
