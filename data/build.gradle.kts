@@ -16,12 +16,15 @@ android {
         val clientSecret:String by project
         val grantType:String by project
         val baseUrlCard:String by project
+        val baseUrlCity:String by project
 
         buildConfigField("String","BASE_URL", baseUrl)
         buildConfigField("String","CLIENT_ID", clientId)
         buildConfigField("String","CLIENT_SECRET", clientSecret)
         buildConfigField("String","GRANT_TYPE", grantType)
         buildConfigField("String","BASE_URL_CARD", baseUrlCard)
+        buildConfigField("String","BASE_URL_CITY", baseUrlCity)
+
 
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -46,6 +49,10 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+
+    implementation("com.google.maps.android:android-maps-utils:1.3.3")
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.android.gms:play-services-location:20.0.0")
 
     kapt(libs.androidx.room.compiler)
     implementation(libs.bundles.androidx.room)

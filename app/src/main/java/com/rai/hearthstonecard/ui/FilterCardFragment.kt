@@ -2,7 +2,6 @@ package com.rai.hearthstonecard.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rai.hearthstonecard.R
 import com.rai.hearthstonecard.databinding.FragmentFilterCardBinding
+import com.rai.hearthstonecard.domain.model.Constants
 import com.rai.hearthstonecard.domain.model.Filters
 
 
@@ -50,9 +50,9 @@ class FilterCardFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            getValue(R.array.mana_count, manaCostSpinner)
-            getValue(R.array.attack_count, attackSpinner)
-            getValue(R.array.health_count, healthSpinner)
+            setFilterStats(R.array.mana_count, manaCostSpinner)
+            setFilterStats(R.array.attack_count, attackSpinner)
+            setFilterStats(R.array.health_count, healthSpinner)
 
             setSpinnerValue(manaCostSpinner, mapToSpinnerValue(args.filter.mana))
             setSpinnerValue(attackSpinner, mapToSpinnerValue(args.filter.attack))
@@ -87,8 +87,8 @@ class FilterCardFragment : BottomSheetDialogFragment() {
     private fun onSearchClicked() {
         val filters = Filters(mana, attack, health)
         setFragmentResult(
-            "request_key",
-            bundleOf("extra_key" to filters)
+            Constants.REQUEST_KEY,
+            bundleOf(Constants.EXTRA_KEY to filters)
         )
         dismiss()
     }
@@ -106,7 +106,7 @@ class FilterCardFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun getValue(array: Int, spinner: Spinner) {
+    private fun setFilterStats(array: Int, spinner: Spinner) {
         ArrayAdapter.createFromResource(
             requireContext(),
             array,
@@ -147,7 +147,7 @@ class FilterCardFragment : BottomSheetDialogFragment() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                showToast(message = "Nothing selected")
+                showToast(message = getString(R.string.nothing_selected))
             }
         }
     }
@@ -173,6 +173,5 @@ class FilterCardFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

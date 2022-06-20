@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -12,7 +11,7 @@
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00ffffff"
+        android:background="@color/background"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/card_list"
         app:menu="@menu/toolbar_menu"

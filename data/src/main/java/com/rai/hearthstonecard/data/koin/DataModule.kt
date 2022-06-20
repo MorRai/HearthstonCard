@@ -1,5 +1,6 @@
 package com.rai.hearthstonecard.data.koin
 
+import com.rai.hearthstonecard.koin.serviceModule
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -8,8 +9,12 @@ val dataModule = module {
         cardDatabaseModule,
         cardRemoteRepositoryModule,
         cardLocalRepositoryModule,
+        cityRemoteRepositoryModule,
         classesDatabaseModule,
         networkModule,
-        useCaseModule
+        useCaseModule,
+        serviceModule,
+        locationServiceModule,
+        cityModule
     )
 }

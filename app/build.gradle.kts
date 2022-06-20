@@ -15,6 +15,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        val googleMapKey:String by project
+
+        manifestPlaceholders["googleMapKey"]  = googleMapKey
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,6 +45,11 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data"))
+
+    implementation("com.google.maps.android:android-maps-utils:1.3.3")
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.android.gms:play-services-location:20.0.0")
+
 
     implementation(libs.kotlinx.serialization)
 

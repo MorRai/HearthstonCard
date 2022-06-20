@@ -2,7 +2,6 @@ package com.rai.hearthstonecard
 
 import android.graphics.Rect
 import android.view.View
-import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 

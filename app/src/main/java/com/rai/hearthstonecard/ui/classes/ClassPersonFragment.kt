@@ -1,10 +1,12 @@
 package com.rai.hearthstonecard.ui.classes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,7 +16,11 @@ import com.rai.hearthstonecard.databinding.FragmentListClassesBinding
 import com.rai.hearthstonecard.domain.model.LceState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
 
 class ClassPersonFragment : Fragment() {
     private var _binding: FragmentListClassesBinding? = null
@@ -50,19 +56,19 @@ class ClassPersonFragment : Fragment() {
             recyclerView.layoutManager = layoutManager
 
             lifecycleScope.launch {
-                viewModel.classesFlow.collect{ lce ->
+                viewModel.classesFlow.collect { lce ->
                     when (lce) {
                         is LceState.Content -> {
-                            hideProgressBar()
+                            isVisibleProgressBar(false)
                             adapter.submitList(lce.data)
                         }
                         is LceState.Error -> {
-                            hideProgressBar()
+                            isVisibleProgressBar(false)
                             Toast.makeText(requireContext(),
                                 lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
                         }
                         LceState.Loading -> {
-                            showProgressBar()
+                            isVisibleProgressBar(true)
                         }
                     }
                 }
@@ -70,12 +76,8 @@ class ClassPersonFragment : Fragment() {
         }
     }
 
-    private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
+    private fun isVisibleProgressBar(visible:Boolean) {
+        binding.paginationProgressBar.isVisible = visible
     }
 
     override fun onDestroyView() {

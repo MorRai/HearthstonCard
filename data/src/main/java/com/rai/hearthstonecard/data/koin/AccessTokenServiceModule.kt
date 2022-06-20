@@ -19,7 +19,7 @@ internal val accessTokenServiceModule = module {
     }
 
     single(named("accessToken")) {
-         suspend {get<AccessTokenApi>(named("accessTokenService")).getToken(BuildConfig.CLIENT_ID,
+       runBlocking {  get<AccessTokenApi>(named("accessTokenService")).getToken(BuildConfig.CLIENT_ID,
                 BuildConfig.CLIENT_SECRET,
                 BuildConfig.GRANT_TYPE)
         .accessToken}

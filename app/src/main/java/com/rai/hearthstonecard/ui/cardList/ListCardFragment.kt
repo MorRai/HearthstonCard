@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import com.rai.hearthstonecard.adapter.CardAdapter
 import com.rai.hearthstonecard.addCardDecoration
 import com.rai.hearthstonecard.addPaginationScrollListener
 import com.rai.hearthstonecard.databinding.FragmentListCardBinding
+import com.rai.hearthstonecard.domain.model.Constants
 import com.rai.hearthstonecard.domain.model.Filters
 import com.rai.hearthstonecard.domain.model.LceState
 import kotlinx.coroutines.flow.launchIn
@@ -41,8 +43,8 @@ class ListCardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFragmentResultListener("request_key") { _, bundle ->
-            viewModel.onFilterChanged(bundle.getSerializable("extra_key") as Filters)
+        setFragmentResultListener(Constants.REQUEST_KEY) { _, bundle ->
+            viewModel.onFilterChanged(bundle.getSerializable(Constants.EXTRA_KEY) as Filters)
         }
     }
 
@@ -87,15 +89,15 @@ class ListCardFragment : Fragment() {
             viewModel.state.onEach { lce ->
                 when (lce) {
                     is LceState.Content -> {
-                        hideProgressBar()
+                        isVisibleProgressBar(false)
                     }
                     is LceState.Error -> {
-                        hideProgressBar()
+                        isVisibleProgressBar(false)
                         Toast.makeText(requireContext(),
                             lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
                     }
                     LceState.Loading -> {
-                        showProgressBar()
+                        isVisibleProgressBar(true)
                     }
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -112,13 +114,8 @@ class ListCardFragment : Fragment() {
         _binding = null
     }
 
-
-    private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
+    private fun isVisibleProgressBar(visible:Boolean) {
+        binding.paginationProgressBar.isVisible = visible
     }
 
     companion object {
