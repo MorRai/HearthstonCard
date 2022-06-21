@@ -1,7 +1,6 @@
 package com.rai.hearthstonecard.ui.classes
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,7 @@ import com.rai.hearthstonecard.databinding.FragmentListClassesBinding
 import com.rai.hearthstonecard.domain.model.LceState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.net.HttpURLConnection
-import java.net.URL
-import java.net.URLEncoder
 
 class ClassPersonFragment : Fragment() {
     private var _binding: FragmentListClassesBinding? = null
@@ -29,9 +24,7 @@ class ClassPersonFragment : Fragment() {
             "View was destroyed"
         }
 
-
     private val viewModel by viewModel<PersonClassViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,7 +69,7 @@ class ClassPersonFragment : Fragment() {
         }
     }
 
-    private fun isVisibleProgressBar(visible:Boolean) {
+    private fun isVisibleProgressBar(visible: Boolean) {
         binding.paginationProgressBar.isVisible = visible
     }
 

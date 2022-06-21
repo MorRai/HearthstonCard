@@ -1,7 +1,6 @@
 package com.rai.hearthstonecard.data.api
 
 import com.rai.hearthstonecard.data.model.CitiesDTO
-import com.rai.hearthstonecard.data.model.CityDTO
 import com.rai.hearthstonecard.data.model.CityRezDTO
 import retrofit2.http.GET
 import retrofit2.http.Path

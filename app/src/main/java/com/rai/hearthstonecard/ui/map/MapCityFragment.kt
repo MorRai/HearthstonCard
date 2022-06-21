@@ -20,14 +20,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.rai.hearthstonecard.data.services.LocationService
 import com.rai.hearthstonecard.databinding.FragmentMapCityBinding
 import com.rai.hearthstonecard.domain.model.LceState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -40,7 +38,6 @@ class MapCityFragment : Fragment() {
 
     private val viewModel by viewModel<MapCityViewModel>()
 
-    private val locationService by inject<LocationService>()
 
     private var googleMap: GoogleMap? = null
     private var locationListener: LocationSource.OnLocationChangedListener? = null
@@ -51,7 +48,7 @@ class MapCityFragment : Fragment() {
     ) { permissionGranted ->
         if (permissionGranted) {
             viewLifecycleOwner.lifecycleScope.launch {
-                locationService.getCurrentLocation() ?: let { ::moveCameraToLocation }
+                viewModel.locationService.getCurrentLocation() ?: let { ::moveCameraToLocation }
             }
         }
     }
@@ -74,7 +71,7 @@ class MapCityFragment : Fragment() {
 
         permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
-        locationService.getLocationFlow().onEach {
+        viewModel.locationService.getLocationFlow().onEach {
             locationListener?.onLocationChanged(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

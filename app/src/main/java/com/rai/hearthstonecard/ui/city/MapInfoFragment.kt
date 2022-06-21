@@ -25,7 +25,6 @@ class MapInfoFragment : BottomSheetDialogFragment() {
             "View was destroyed"
         }
 
-
     private val viewModel by viewModel<MapInfoViewModel> {
         parametersOf(args.id)
     }
@@ -86,5 +85,4 @@ class MapInfoFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

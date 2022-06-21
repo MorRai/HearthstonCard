@@ -16,14 +16,13 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-class LocationService(context: Context) {
+class LocationService(context: Context)  {
 
-    //нужно скрыть
     private val locationClient = LocationServices.getFusedLocationProviderClient(context)
 
     //запрос локации постоянно
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun getLocationFlow() = callbackFlow{
+     fun getLocationFlow() = callbackFlow{
         val locationRequest = LocationRequest.create().apply {
             interval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -45,7 +44,7 @@ class LocationService(context: Context) {
     }
 
 
-    //МОЖНО УДАЛИТЬ запрос локации разовов
+    // запрос локации разовов
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     suspend fun getCurrentLocation(): Location? = suspendCoroutine { cont ->
         locationClient.lastLocation
