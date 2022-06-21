@@ -16,7 +16,6 @@ android {
         versionName = "1.0"
 
         val googleMapKey:String by project
-
         manifestPlaceholders["googleMapKey"]  = googleMapKey
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
