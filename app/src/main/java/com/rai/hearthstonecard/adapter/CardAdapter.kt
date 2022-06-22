@@ -11,13 +11,13 @@ import com.rai.hearthstonecard.databinding.ItemCardBinding
 import com.rai.hearthstonecard.domain.model.Card
 
 
+
 class CardAdapter(
     context: Context,
     private val onItemClicked: (Card) -> Unit,
 ) : ListAdapter<Card, CardViewHolder>(DIFF_UTIL) {
 
     private val layoutInflater = LayoutInflater.from(context)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         return CardViewHolder(
@@ -28,15 +28,13 @@ class CardAdapter(
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item) {
-            onItemClicked(it)
-        }
+        holder.bind(item,onItemClicked)
     }
 
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<Card>() {
             override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
-                return oldItem == newItem
+                return oldItem === newItem
             }
 
             override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {

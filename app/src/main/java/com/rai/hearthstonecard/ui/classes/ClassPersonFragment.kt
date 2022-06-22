@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,9 +24,7 @@ class ClassPersonFragment : Fragment() {
             "View was destroyed"
         }
 
-
     private val viewModel by viewModel<PersonClassViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,19 +49,19 @@ class ClassPersonFragment : Fragment() {
             recyclerView.layoutManager = layoutManager
 
             lifecycleScope.launch {
-                viewModel.classesFlow.collect{ lce ->
+                viewModel.classesFlow.collect { lce ->
                     when (lce) {
                         is LceState.Content -> {
-                            hideProgressBar()
+                            isVisibleProgressBar(false)
                             adapter.submitList(lce.data)
                         }
                         is LceState.Error -> {
-                            hideProgressBar()
+                            isVisibleProgressBar(false)
                             Toast.makeText(requireContext(),
                                 lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
                         }
                         LceState.Loading -> {
-                            showProgressBar()
+                            isVisibleProgressBar(true)
                         }
                     }
                 }
@@ -70,12 +69,8 @@ class ClassPersonFragment : Fragment() {
         }
     }
 
-    private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
+    private fun isVisibleProgressBar(visible: Boolean) {
+        binding.paginationProgressBar.isVisible = visible
     }
 
     override fun onDestroyView() {

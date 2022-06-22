@@ -29,9 +29,7 @@ class ClassPersonAdapter(
 
     override fun onBindViewHolder(holder: ClassPersonViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item) {
-            onItemClicked(it)
-        }
+        holder.bind(item,onItemClicked)
     }
 
     companion object {
@@ -40,7 +38,7 @@ class ClassPersonAdapter(
                 oldItem: ClassPerson,
                 newItem: ClassPerson,
             ): Boolean {
-                return oldItem == newItem
+                return oldItem === newItem
             }
 
             override fun areContentsTheSame(

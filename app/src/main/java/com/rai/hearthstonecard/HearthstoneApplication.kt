@@ -15,6 +15,7 @@ class HearthstoneApplication : Application()  {
             modules(
                 dataModule,
                 viewModelsModule
+
             )
         }
     }

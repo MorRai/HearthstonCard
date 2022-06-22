@@ -1,8 +1,5 @@
 package com.rai.hearthstonecard.data.model
 
-import com.rai.hearthstonecard.domain.model.Card
-
-
 internal data class CardsDTO(
     val cards: List<CardDTO>,
 )

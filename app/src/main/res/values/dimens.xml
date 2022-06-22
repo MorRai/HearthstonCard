@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="detail_card_margintop">16dp</dimen>
+    <dimen name="city_info_margin16">16dp</dimen>
+    <dimen name="city_info_sp12">12sp</dimen>
 </resources>
