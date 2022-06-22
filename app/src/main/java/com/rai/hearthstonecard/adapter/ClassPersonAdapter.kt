@@ -38,7 +38,7 @@ class ClassPersonAdapter(
                 oldItem: ClassPerson,
                 newItem: ClassPerson,
             ): Boolean {
-                return oldItem === newItem
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(

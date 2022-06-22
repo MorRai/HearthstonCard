@@ -1,9 +1,10 @@
 package com.rai.hearthstonecard.koin
 
-
-import com.rai.hearthstonecard.data.services.LocationService
 import org.koin.dsl.module
+import com.rai.hearthstonecard.data.services.LocationService
+import org.koin.core.module.dsl.singleOf
+
 
 internal val serviceModule = module {
-    single { ::LocationService }
+    singleOf(::LocationService)
 }

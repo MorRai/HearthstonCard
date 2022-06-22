@@ -91,37 +91,39 @@ class MapCityFragment : Fragment() {
                 }
             })
 
-            lifecycleScope.launch {
-                viewModel.citiesFlow.collect { lce ->
-                    when (lce) {
-                        is LceState.Content -> {
-                            isVisibleProgressBar(false)
-                            lce.data.forEach {
-                                map.addMarker(
-                                    MarkerOptions()
-                                        .title(it.name)
-                                        .position(
-                                            LatLng(it.latitude, it.longitude)
-                                        )
-                                )?.tag = it.id
-                            }
-                        }
-                        is LceState.Error -> {
-                            isVisibleProgressBar(false)
-                            Toast.makeText(requireContext(),
-                                lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
-                        }
-                        LceState.Loading -> {
-                            isVisibleProgressBar(true)
-                        }
-                    }
-                }
-            }
-            map.setOnMarkerClickListener { marker ->
+           map.setOnMarkerClickListener { marker ->
                 findNavController().navigate(MapCityFragmentDirections.actionMapsToMapInfoFragment( marker.tag.toString() ))
                 true
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.citiesFlow.collect { lce ->
+                when (lce) {
+                    is LceState.Content -> {
+                        isVisibleProgressBar(false)
+                        lce.data.forEach {
+                            googleMap?.addMarker(
+                                MarkerOptions()
+                                    .title(it.name)
+                                    .position(
+                                        LatLng(it.latitude, it.longitude)
+                                    )
+                            )?.tag = it.id
+                        }
+                    }
+                    is LceState.Error -> {
+                        isVisibleProgressBar(false)
+                        Toast.makeText(requireContext(),
+                            lce.throwable.message ?: "", Toast.LENGTH_SHORT).show()
+                    }
+                    LceState.Loading -> {
+                        isVisibleProgressBar(true)
+                    }
+                }
+            }
+        }
+
 
         binding.mapView.onCreate(savedInstanceState)
 
