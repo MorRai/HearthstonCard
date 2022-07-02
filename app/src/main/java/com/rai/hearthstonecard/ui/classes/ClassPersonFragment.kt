@@ -48,7 +48,7 @@ class ClassPersonFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = layoutManager
 
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.classesFlow.collect { lce ->
                     when (lce) {
                         is LceState.Content -> {

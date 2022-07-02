@@ -4,9 +4,10 @@
     <string name="collectible">Collectible</string>
     <string name="card_list">Card list</string>
     <string name="error_getcards">Ошибка получения данных карты! 1$%s</string>
-    <string name="loading">загрузка</string>
+    <string name="loading">Loading</string>
     <string name="author_value">Author: %s</string>
     <string name="mana">Mana</string>
+    <string name="classes">Classes</string>
     <string name="attack">Attack</string>
     <string name="health">Health</string>
     <string name="filters">Filters</string>

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 
 class MapCityViewModel(
-    getCitiesUseCase: GetCitiesUseCase, val locationService: LocationService,
+    getCitiesUseCase: GetCitiesUseCase,  val locationService: LocationService,
 ) : ViewModel() {
     val citiesFlow = getCitiesUseCase.invoke()
         .stateIn(

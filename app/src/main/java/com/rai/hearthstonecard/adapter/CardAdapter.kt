@@ -34,7 +34,7 @@ class CardAdapter(
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<Card>() {
             override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
-                return oldItem === newItem
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {

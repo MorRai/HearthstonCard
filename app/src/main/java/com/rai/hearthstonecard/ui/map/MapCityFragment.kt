@@ -91,6 +91,7 @@ class MapCityFragment : Fragment() {
                 }
             })
 
+
             lifecycleScope.launch {
                 viewModel.citiesFlow.collect { lce ->
                     when (lce) {
@@ -117,11 +118,15 @@ class MapCityFragment : Fragment() {
                     }
                 }
             }
-            map.setOnMarkerClickListener { marker ->
+
+           map.setOnMarkerClickListener { marker ->
                 findNavController().navigate(MapCityFragmentDirections.actionMapsToMapInfoFragment( marker.tag.toString() ))
                 true
             }
         }
+
+
+
 
         binding.mapView.onCreate(savedInstanceState)
 

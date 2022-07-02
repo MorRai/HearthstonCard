@@ -76,7 +76,7 @@ class MapInfoFragment : BottomSheetDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        dialog!!.window!!.setLayout(
+        dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
     }

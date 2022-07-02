@@ -23,7 +23,6 @@ class GetClassesUseCase(
                             .fold(
                                 onSuccess = { card ->
                                     classPerson.image = card.image
-                                    cardLocalRepository.insertClasses(classPerson)
                                 },
                                 onFailure = {
                                     // покуда как загулушка ибо у одной из них всегда пусто потом надо норм что сделать как время будет
@@ -31,6 +30,7 @@ class GetClassesUseCase(
                                         "https://preview.redd.it/8ed90rync7u71.png?width=400&format=png&auto=webp&s=219606bfd4b139813025cc259aa096a143d61d8f"
                                 }
                             )
+                        cardLocalRepository.insertClasses(classPerson)
                     }
                     LceState.Content(it)
                 },
