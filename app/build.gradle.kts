@@ -16,7 +16,7 @@ android {
         versionName = "1.0"
 
         val googleMapKey:String by project
-        manifestPlaceholders["googleMapKey"]  = googleMapKey
+        manifestPlaceholders["googleMapKey"]  = "AIzaSyA_DKknzyYk6MetKXUi21x9oX9XUkOGL7A"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,6 +44,8 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data"))
+
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
 
 
     implementation(libs.bundles.android.google.maps)

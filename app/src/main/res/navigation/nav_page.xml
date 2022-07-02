@@ -18,11 +18,12 @@
     <fragment
         android:id="@+id/listCardFragment"
         android:name="com.rai.hearthstonecard.ui.cardList.ListCardFragment"
-        android:label="ListCardFragment" >
+        android:label="@string/card_list">
         <action
             android:id="@+id/action_listCardFragment_to_detailCardFragment"
             app:destination="@id/detailCardFragment" />
-        <argument android:name="classPerson"
+        <argument
+            android:name="classPerson"
             app:argType="com.rai.hearthstonecard.domain.model.ClassPerson" />
         <action
             android:id="@+id/action_listCardFragment_to_filterCardFragment"
@@ -31,7 +32,7 @@
     <fragment
         android:id="@+id/detailCardFragment"
         android:name="com.rai.hearthstonecard.ui.cardDetail.DetailCardFragment"
-        android:label="DetailCardFragment" >
+        android:label="@string/card">
         <argument
             android:name="id"
             app:argType="integer" />
@@ -39,8 +40,7 @@
     <fragment
         android:id="@+id/classPersonFragment"
         android:name="com.rai.hearthstonecard.ui.classes.ClassPersonFragment"
-        android:label="ClassPersonFragment"
-        tools:layout="@layout/fragment_content" >
+        android:label="@string/classes">
 
         <action
             android:id="@+id/action_classPersonFragment_to_listCardFragment"

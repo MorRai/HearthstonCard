@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rai.hearthstonecard.databinding.ItemCardBinding
+import com.rai.hearthstonecard.databinding.ItemClassBinding
 import com.rai.hearthstonecard.domain.model.ClassPerson
 
 
@@ -21,8 +22,7 @@ class ClassPersonAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassPersonViewHolder {
         return ClassPersonViewHolder(
-            // покуда общий макед для карт и классов потом планирую отделить
-            binding = ItemCardBinding.inflate(layoutInflater, parent, false)
+            binding = ItemClassBinding.inflate(layoutInflater, parent, false)
         )
 
     }
@@ -52,11 +52,12 @@ class ClassPersonAdapter(
 }
 
 class ClassPersonViewHolder(
-    private val binding: ItemCardBinding,
+    private val binding: ItemClassBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: ClassPerson, onItemClicked: (ClassPerson) -> Unit) {
         binding.imageCard.load(item.image)
+        binding.nameClass.text = item.name
         itemView.setOnClickListener {
             onItemClicked(item)
         }

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/background"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/card_list"
+        app:title="@string/classes"
         tools:layout_editor_absoluteX="16dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
