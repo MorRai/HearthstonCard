@@ -29,6 +29,7 @@ class ContentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         with(binding){
             val nestedController =
                 (childFragmentManager.findFragmentById(R.id.page_container) as NavHostFragment)
