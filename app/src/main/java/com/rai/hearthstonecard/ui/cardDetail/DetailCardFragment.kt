@@ -52,7 +52,6 @@ class DetailCardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-
             toolbar.setupWithNavController(findNavController())
 
             lifecycleScope.launch {

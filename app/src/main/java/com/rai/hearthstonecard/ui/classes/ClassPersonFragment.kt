@@ -26,6 +26,8 @@ class ClassPersonFragment : Fragment() {
 
     private val viewModel by viewModel<PersonClassViewModel>()
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
