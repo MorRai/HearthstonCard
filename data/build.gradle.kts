@@ -50,6 +50,9 @@ dependencies {
 
     implementation(project(":domain"))
 
+    implementation(libs.bundles.android.dagger.libs)
+    kapt(libs.bundles.android.dagger.kapt)
+
     implementation(libs.bundles.android.google.maps)
 
     kapt(libs.androidx.room.compiler)

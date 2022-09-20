@@ -7,9 +7,10 @@ import okhttp3.Route
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.qualifier.named
+import javax.inject.Inject
 
 
-internal class TokenAuthenticator(private val tokenPreferences: TokenPrefs) : Authenticator, KoinComponent {
+internal class TokenAuthenticator @Inject constructor(private val tokenPreferences: TokenPrefs) : Authenticator, KoinComponent {
 
     override fun authenticate(route: Route?, response: Response): Request? {
 

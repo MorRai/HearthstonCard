@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onStart
 
 class GetCardUseCase(
     private val cardRemoteRepository: CardRemoteRepository,
-    private val cardLocalRepository: CardLocalRepository,
+    private val cardLocalRepository: CardLocalRepository
 ) {
 
     operator fun invoke(cardId :Int): Flow<LceState<Card>> = flow {

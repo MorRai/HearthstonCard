@@ -22,6 +22,7 @@ androidx-test-espresso = "3.4.0"
 android-maps-utils = "1.3.3"
 play-services-map = "18.0.2"
 play-services-location= "20.0.0"
+dagger-version = "2.36"
 
 
 [libraries]
@@ -64,12 +65,21 @@ android-maps-utils = {module = "com.google.maps.android:android-maps-utils", ver
 play-services-maps = {module = "com.google.android.gms:play-services-maps", version.ref = "play-services-map"}
 play-services-location = {module = "com.google.android.gms:play-services-location", version.ref = "play-services-location"}
 
+android-dagger-libs-base = {module = "com.google.dagger:dagger", version.ref = "dagger-version"}
+android-dagger-libs-android = {module = "com.google.dagger:dagger-android", version.ref = "dagger-version"}
+
+android-dagger-compiler = {module = "com.google.dagger:dagger-compiler", version.ref = "dagger-version"}
+android-dagger-processor = {module = "com.google.dagger:dagger-android-processor", version.ref = "dagger-version"}
+android-dagger-support = {module = "com.google.dagger:dagger-android-support", version.ref = "dagger-version"}
+
 [bundles]
 android-google-maps = ["android-maps-utils", "play-services-maps", "play-services-location"]
 androidx-navigation = ["androidx-navigation-fragment", "androidx-navigation-ui"]
 androidx-lifecycle = ["androidx-lifecycle-livedata", "androidx-lifecycle-viewmodel"]
 androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
 androidx-retrofit = ["retrofit-retrofit", "retrofit-converter-gson"]
+android-dagger-kapt = ["android-dagger-compiler", "android-dagger-processor"]
+android-dagger-libs  = ["android-dagger-libs-base", "android-dagger-libs-android","android-dagger-support"]
 
 
 

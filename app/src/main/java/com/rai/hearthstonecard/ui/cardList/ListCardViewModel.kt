@@ -10,8 +10,9 @@ import com.rai.hearthstonecard.domain.usecase.GetCardsDaoUseCase
 import com.rai.hearthstonecard.domain.usecase.SaveCardUseCase
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class ListCardViewModel(
+class ListCardViewModel  @Inject constructor(
     private val getCardListUseCase: GetCardListUseCase,
     private val getCardsDaoUseCase: GetCardsDaoUseCase,
     private val saveCardUseCase: SaveCardUseCase,

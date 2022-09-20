@@ -12,11 +12,12 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-class LocationService(context: Context)  {
+internal class LocationService @Inject constructor(context: Context)  {
 
     private val locationClient = LocationServices.getFusedLocationProviderClient(context)
 

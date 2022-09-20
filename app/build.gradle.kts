@@ -47,6 +47,8 @@ dependencies {
 
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
 
+    implementation(libs.bundles.android.dagger.libs)
+    kapt(libs.bundles.android.dagger.kapt)
 
     implementation(libs.bundles.android.google.maps)
 

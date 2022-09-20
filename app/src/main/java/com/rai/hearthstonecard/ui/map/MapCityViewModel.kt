@@ -7,8 +7,9 @@ import com.rai.hearthstonecard.domain.model.LceState
 import com.rai.hearthstonecard.domain.usecase.GetCitiesUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class MapCityViewModel(
+class MapCityViewModel  @Inject constructor(
     getCitiesUseCase: GetCitiesUseCase,  val locationService: LocationService,
 ) : ViewModel() {
     val citiesFlow = getCitiesUseCase.invoke()

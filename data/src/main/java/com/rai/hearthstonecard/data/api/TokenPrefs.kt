@@ -1,8 +1,9 @@
 package com.rai.hearthstonecard.data.api
 
 import android.content.Context
+import javax.inject.Inject
 
-internal class TokenPrefs(context: Context) {
+internal class TokenPrefs @Inject constructor(context: Context) {
 
     private val prefs = context.getSharedPreferences("test", Context.MODE_PRIVATE)
 

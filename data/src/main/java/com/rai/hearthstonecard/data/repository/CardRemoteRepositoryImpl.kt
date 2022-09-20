@@ -5,8 +5,9 @@ import com.rai.hearthstonecard.data.mapper.toDomainModels
 import com.rai.hearthstonecard.domain.model.Card
 import com.rai.hearthstonecard.domain.model.ClassPerson
 import com.rai.hearthstonecard.domain.repository.CardRemoteRepository
+import javax.inject.Inject
 
-internal class CardRemoteRepositoryImpl(
+internal class CardRemoteRepositoryImpl @Inject constructor(
     private val cardService: CardApi,
 ) : CardRemoteRepository {
 

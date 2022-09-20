@@ -4,8 +4,9 @@ import com.rai.hearthstonecard.data.api.CityApi
 import com.rai.hearthstonecard.data.mapper.toDomainModels
 import com.rai.hearthstonecard.domain.model.City
 import com.rai.hearthstonecard.domain.repository.CityRemoteRepository
+import javax.inject.Inject
 
-internal class CityRemoteRepositoryImpl(private val cityService: CityApi) :
+internal class CityRemoteRepositoryImpl @Inject constructor(private val cityService: CityApi) :
     CityRemoteRepository {
     override suspend fun getCities(): Result<List<City>> {
 

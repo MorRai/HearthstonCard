@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.rai.hearthstonecard.domain.model.LceState
 import com.rai.hearthstonecard.domain.usecase.GetClassesUseCase
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class PersonClassViewModel(getClassesUseCase: GetClassesUseCase) : ViewModel() {
+class PersonClassViewModel @Inject constructor(getClassesUseCase: GetClassesUseCase) : ViewModel() {
 
     val classesFlow = getClassesUseCase.invoke()
         .stateIn(
