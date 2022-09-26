@@ -1,5 +1,6 @@
 package com.rai.hearthstonecard.ui.cardList
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,14 +19,17 @@ import com.rai.hearthstonecard.R
 import com.rai.hearthstonecard.adapter.CardAdapter
 import com.rai.hearthstonecard.addCardDecoration
 import com.rai.hearthstonecard.addPaginationScrollListener
+import com.rai.hearthstonecard.appComponent
 import com.rai.hearthstonecard.databinding.FragmentListCardBinding
 import com.rai.hearthstonecard.domain.model.Constants
 import com.rai.hearthstonecard.domain.model.Filters
 import com.rai.hearthstonecard.domain.model.LceState
+import com.rai.hearthstonecard.ui.cardDetail.DetailCardViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import javax.inject.Inject
 
 
 class ListCardFragment : Fragment() {
@@ -37,8 +42,20 @@ class ListCardFragment : Fragment() {
 
     private val args by navArgs<ListCardFragmentArgs>()
 
-    private val viewModel by viewModel<ListCardViewModel> {
-        parametersOf(args.classPerson)
+    //private val viewModel by viewModel<ListCardViewModel> {
+    //    parametersOf(args.classPerson)
+  //  }
+
+    private val viewModel: ListCardViewModel by viewModels {
+        listCardViewModelFactory.create(args.classPerson)
+    }
+
+    @Inject
+    lateinit var listCardViewModelFactory: ListCardViewModelFactory.Factory
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

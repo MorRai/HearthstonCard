@@ -17,13 +17,13 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-internal class LocationService @Inject constructor(context: Context)  {
+ class LocationService @Inject constructor(context: Context) {
 
     private val locationClient = LocationServices.getFusedLocationProviderClient(context)
 
     //запрос локации постоянно
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-     fun getLocationFlow() = callbackFlow{
+    fun getLocationFlow() = callbackFlow{
         val locationRequest = LocationRequest.create().apply {
             interval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY

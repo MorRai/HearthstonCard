@@ -1,5 +1,6 @@
 package com.rai.hearthstonecard.data.api
 
+import com.rai.hearthstonecard.data.di.AccessTokenServiceModule
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -10,7 +11,7 @@ import org.koin.core.qualifier.named
 import javax.inject.Inject
 
 
-internal class TokenAuthenticator @Inject constructor(private val tokenPreferences: TokenPrefs) : Authenticator, KoinComponent {
+internal class TokenAuthenticator @Inject constructor(private val tokenPreferences: TokenPrefs,@AccessTokenServiceModule.AccessTokenString val tokenResponse:String) : Authenticator{
 
     override fun authenticate(route: Route?, response: Response): Request? {
 
@@ -18,7 +19,7 @@ internal class TokenAuthenticator @Inject constructor(private val tokenPreferenc
             return null
         }
 
-        val tokenResponse = get<String>(named("accessToken"))
+        //val tokenResponse = get<String>(named("accessToken"))
         tokenPreferences.saveAuthToken(
             tokenResponse
         )

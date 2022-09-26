@@ -1,20 +1,25 @@
 package com.rai.hearthstonecard.ui.city
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.rai.hearthstonecard.appComponent
 import com.rai.hearthstonecard.databinding.BottomSheetCityBinding
 import com.rai.hearthstonecard.domain.model.City
 import com.rai.hearthstonecard.domain.model.LceState
+import com.rai.hearthstonecard.ui.cardList.ListCardViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import javax.inject.Inject
 
 
 class MapInfoFragment : BottomSheetDialogFragment() {
@@ -25,11 +30,24 @@ class MapInfoFragment : BottomSheetDialogFragment() {
             "View was destroyed"
         }
 
-    private val viewModel by viewModel<MapInfoViewModel> {
-        parametersOf(args.id)
-    }
+   // private val viewModel by viewModel<MapInfoViewModel> {
+     //   parametersOf(args.id)
+    //}
 
     private val args by navArgs<MapInfoFragmentArgs>()
+
+    private val viewModel: MapInfoViewModel by viewModels {
+        mapInfoViewModelFactory.create(args.id)
+    }
+
+    @Inject
+    lateinit var mapInfoViewModelFactory: MapInfoViewModelFactory.Factory
+
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
+    }
 
 
     override fun onCreateView(

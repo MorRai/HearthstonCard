@@ -1,29 +1,24 @@
 package com.rai.hearthstonecard
 
-import com.rai.hearthstonecard.data.koin.dataModule
+import android.app.Application
+import android.content.Context
+import com.rai.hearthstonecard.di.AppComponent
 import com.rai.hearthstonecard.di.DaggerAppComponent
-import com.rai.hearthstonecard.koin.*
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
-class HearthstoneApplication : DaggerApplication() {
+class HearthstoneApplication : Application() {
+    lateinit var appComponent: AppComponent
+        private set
 
     override fun onCreate() {
         super.onCreate()
-        startKoin {
-            androidContext(this@HearthstoneApplication)
-            modules(
-                dataModule,
-                viewModelsModule
+        appComponent = DaggerAppComponent.builder()
+            .context(context = this).build()
 
-            )
-        }
-    }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.factory()
-            .create(this)
     }
 }
+
+val Context.appComponent: AppComponent
+    get() = when (this) {
+        is HearthstoneApplication -> appComponent
+        else -> applicationContext.appComponent
+    }

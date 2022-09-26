@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import org.koin.core.qualifier.named
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -19,6 +20,7 @@ internal class AccessTokenServiceModule {
 
     @Singleton
     @Provides
+    @AccessTokenRetrofit
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -28,17 +30,30 @@ internal class AccessTokenServiceModule {
 
     @Singleton
     @Provides
-    fun provideAccessTokenApi(retrofit: Retrofit): AccessTokenApi {
+    @AccessTokApi
+    fun provideAccessTokenApi(@AccessTokenRetrofit retrofit: Retrofit): AccessTokenApi {
         return retrofit.create(AccessTokenApi::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideAccessToken(accessTokenApi: AccessTokenApi): String {
+    @AccessTokenString
+    fun provideAccessToken(@AccessTokApi accessTokenApi: AccessTokenApi): String {
         return runBlocking { accessTokenApi.getToken(BuildConfig.CLIENT_ID,
             BuildConfig.CLIENT_SECRET,
             BuildConfig.GRANT_TYPE)
             .accessToken}
     }
 
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class AccessTokenRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class AccessTokApi
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class AccessTokenString
 }

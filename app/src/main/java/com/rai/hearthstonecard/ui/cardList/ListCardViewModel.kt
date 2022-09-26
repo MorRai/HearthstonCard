@@ -6,8 +6,13 @@ import com.rai.hearthstonecard.domain.model.ClassPerson
 import com.rai.hearthstonecard.domain.model.Filters
 import com.rai.hearthstonecard.domain.model.LceState
 import com.rai.hearthstonecard.domain.usecase.GetCardListUseCase
+import com.rai.hearthstonecard.domain.usecase.GetCardUseCase
 import com.rai.hearthstonecard.domain.usecase.GetCardsDaoUseCase
 import com.rai.hearthstonecard.domain.usecase.SaveCardUseCase
+import com.rai.hearthstonecard.ui.cardDetail.DetailCardViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -92,4 +97,21 @@ class ListCardViewModel  @Inject constructor(
             .runningReduce { accumulator, value -> accumulator + value }
     }
 
+}
+
+class ListCardViewModelFactory @AssistedInject constructor(private val getCardListUseCase: GetCardListUseCase,
+                                          private val getCardsDaoUseCase: GetCardsDaoUseCase,
+                                          private val saveCardUseCase: SaveCardUseCase,
+                                          @Assisted("classPerson")private val classPerson: ClassPerson,) : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        require(modelClass == ListCardViewModel::class)
+        return ListCardViewModel(getCardListUseCase,getCardsDaoUseCase,saveCardUseCase,classPerson) as T
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(@Assisted("classPerson")classPerson: ClassPerson):ListCardViewModelFactory
+    }
 }

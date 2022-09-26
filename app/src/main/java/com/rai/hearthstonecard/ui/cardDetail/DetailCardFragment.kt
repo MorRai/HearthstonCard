@@ -1,5 +1,6 @@
 package com.rai.hearthstonecard.ui.cardDetail
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -8,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.rai.hearthstonecard.R
+import com.rai.hearthstonecard.appComponent
 import com.rai.hearthstonecard.databinding.FragmentDetailCardBinding
 import com.rai.hearthstonecard.domain.model.Card
 import com.rai.hearthstonecard.domain.model.LceState
@@ -21,6 +24,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import javax.inject.Inject
 
 
 class DetailCardFragment : Fragment() {
@@ -32,11 +36,25 @@ class DetailCardFragment : Fragment() {
         }
 
 
-    private val viewModel by viewModel<DetailCardViewModel>{
-        parametersOf(args.id)
+    //private val viewModel by viewModel<DetailCardViewModel>{
+     //   parametersOf(args.id)
+   // }
+    private val args by navArgs<DetailCardFragmentArgs>()
+
+    private val viewModel: DetailCardViewModel by viewModels {
+        detailCardViewFactory.create(args.id)
     }
 
-    private val args by navArgs<DetailCardFragmentArgs>()
+    @Inject
+    lateinit var detailCardViewFactory: DetailCardViewModelFactory.Factory
+
+
+
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

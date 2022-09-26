@@ -9,6 +9,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -16,6 +17,7 @@ internal class NetworkModule {
 
     @Singleton
     @Provides
+    @CardOkHttpClient
     fun provideOkhttpClient(tokenAuthenticator:TokenAuthenticator,tokenPrefs:TokenPrefs ): OkHttpClient {
         return OkHttpClient.Builder()
             .authenticator(tokenAuthenticator)
@@ -28,7 +30,8 @@ internal class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient:OkHttpClient): Retrofit {
+    @CardRetrofit
+    fun provideRetrofit( @CardOkHttpClient okHttpClient:OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL_CARD)
@@ -38,7 +41,15 @@ internal class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCardApi(retrofit: Retrofit): CardApi {
+    fun provideCardApi( @CardRetrofit retrofit: Retrofit): CardApi {
         return retrofit.create(CardApi::class.java)
     }
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class CardRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class CardOkHttpClient
 }

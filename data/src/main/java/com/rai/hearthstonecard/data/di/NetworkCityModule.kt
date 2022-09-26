@@ -8,12 +8,15 @@ import okhttp3.OkHttpClient
 import org.koin.core.qualifier.named
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 internal class NetworkCityModule {
     @Singleton
     @Provides
+    @CityOkHttpClient
     fun provideOkhttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
@@ -28,7 +31,8 @@ internal class NetworkCityModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @CityRetrofit
+    fun provideRetrofit (@CityOkHttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL_CITY)
@@ -38,9 +42,16 @@ internal class NetworkCityModule {
 
     @Singleton
     @Provides
-    fun provideCityApi(retrofit: Retrofit): CityApi {
+    fun provideCityApi (@CityRetrofit retrofit: Retrofit): CityApi {
         return retrofit.create(CityApi::class.java)
     }
 
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class CityRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class CityOkHttpClient
 
 }

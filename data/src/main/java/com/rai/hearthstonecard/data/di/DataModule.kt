@@ -7,5 +7,6 @@ import dagger.Module
     CardDatabaseModule::class,
     NetworkCityModule::class,
     NetworkModule::class,
-    UseCaseModule::class])
+    UseCaseModule::class,
+    RepositoryBindModule::class])
 class DataModule

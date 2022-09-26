@@ -2,6 +2,7 @@ package com.rai.hearthstonecard.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,13 +22,16 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.rai.hearthstonecard.appComponent
 import com.rai.hearthstonecard.databinding.FragmentMapCityBinding
 import com.rai.hearthstonecard.domain.model.LceState
+import com.rai.hearthstonecard.ui.city.MapInfoViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 
 class MapCityFragment : Fragment() {
@@ -36,7 +41,15 @@ class MapCityFragment : Fragment() {
             "View was destroyed"
         }
 
-    private val viewModel by viewModel<MapCityViewModel>()
+    //private val viewModel by viewModel<MapCityViewModel>()
+
+    private val viewModel: MapCityViewModel by viewModels {
+        mapCityViewModelFactory.create()
+    }
+
+    @Inject
+    lateinit var mapCityViewModelFactory: MapCityViewModelFactory.Factory
+
 
 
     private var googleMap: GoogleMap? = null
@@ -51,6 +64,11 @@ class MapCityFragment : Fragment() {
                 viewModel.locationService.getCurrentLocation() ?: let { ::moveCameraToLocation }
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
