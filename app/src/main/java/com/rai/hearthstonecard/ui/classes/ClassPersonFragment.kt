@@ -29,14 +29,12 @@ class ClassPersonFragment : Fragment() {
             "View was destroyed"
         }
 
-   // private val viewModel by viewModel<PersonClassViewModel>()
-
     private val viewModel: PersonClassViewModel by viewModels {
-        personClassViewModelFactory.create()
+        personClassViewModelFactory
     }
 
     @Inject
-    lateinit var personClassViewModelFactory: PersonClassViewModelFactory.Factory
+    lateinit var personClassViewModelFactory: PersonClassViewModelFactory
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)

@@ -29,7 +29,6 @@ class DetailCardViewModelFactory  @AssistedInject constructor(private val getCar
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        require(modelClass == DetailCardViewModel::class)
         return DetailCardViewModel(getCardUseCase,cardId) as T
     }
 

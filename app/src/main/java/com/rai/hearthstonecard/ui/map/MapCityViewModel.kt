@@ -25,18 +25,11 @@ class MapCityViewModel  @Inject constructor(
         )
 }
 
-class MapCityViewModelFactory @AssistedInject constructor(private val getCitiesUseCase: GetCitiesUseCase,
-                                          private val locationService: LocationService) : ViewModelProvider.Factory {
+class MapCityViewModelFactory @Inject constructor(private val getCitiesUseCase: GetCitiesUseCase,
+                                                      private val locationService: LocationService) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        require(modelClass == MapCityViewModel::class)
         return MapCityViewModel(getCitiesUseCase,locationService) as T
-    }
-
-    @AssistedFactory
-    interface Factory {
-
-        fun create(): MapCityViewModelFactory
     }
 }

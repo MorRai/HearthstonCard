@@ -34,7 +34,6 @@ class MapInfoViewModelFactory @AssistedInject constructor(private val getCityUse
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        require(modelClass == MapInfoViewModel::class)
         return MapInfoViewModel(getCityUseCase,id) as T
     }
 

@@ -23,17 +23,11 @@ class PersonClassViewModel @Inject constructor(getClassesUseCase: GetClassesUseC
         )
 }
 
-class PersonClassViewModelFactory @AssistedInject constructor(private val getClassesUseCase: GetClassesUseCase) : ViewModelProvider.Factory {
+class PersonClassViewModelFactory @Inject constructor(private val getClassesUseCase: GetClassesUseCase) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        require(modelClass == PersonClassViewModel::class)
         return PersonClassViewModel(getClassesUseCase) as T
     }
 
-    @AssistedFactory
-    interface Factory {
-
-        fun create(): PersonClassViewModelFactory
-    }
 }

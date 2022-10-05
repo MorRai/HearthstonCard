@@ -42,10 +42,6 @@ class ListCardFragment : Fragment() {
 
     private val args by navArgs<ListCardFragmentArgs>()
 
-    //private val viewModel by viewModel<ListCardViewModel> {
-    //    parametersOf(args.classPerson)
-  //  }
-
     private val viewModel: ListCardViewModel by viewModels {
         listCardViewModelFactory.create(args.classPerson)
     }

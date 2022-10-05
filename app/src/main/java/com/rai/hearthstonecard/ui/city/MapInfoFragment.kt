@@ -30,10 +30,6 @@ class MapInfoFragment : BottomSheetDialogFragment() {
             "View was destroyed"
         }
 
-   // private val viewModel by viewModel<MapInfoViewModel> {
-     //   parametersOf(args.id)
-    //}
-
     private val args by navArgs<MapInfoFragmentArgs>()
 
     private val viewModel: MapInfoViewModel by viewModels {

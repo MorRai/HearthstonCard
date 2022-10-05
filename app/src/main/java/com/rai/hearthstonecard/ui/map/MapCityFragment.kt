@@ -41,15 +41,12 @@ class MapCityFragment : Fragment() {
             "View was destroyed"
         }
 
-    //private val viewModel by viewModel<MapCityViewModel>()
-
     private val viewModel: MapCityViewModel by viewModels {
-        mapCityViewModelFactory.create()
+        mapCityViewModelFactory
     }
 
     @Inject
-    lateinit var mapCityViewModelFactory: MapCityViewModelFactory.Factory
-
+    lateinit var mapCityViewModelFactory: MapCityViewModelFactory
 
 
     private var googleMap: GoogleMap? = null

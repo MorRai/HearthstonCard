@@ -35,10 +35,6 @@ class DetailCardFragment : Fragment() {
             "View was destroyed"
         }
 
-
-    //private val viewModel by viewModel<DetailCardViewModel>{
-     //   parametersOf(args.id)
-   // }
     private val args by navArgs<DetailCardFragmentArgs>()
 
     private val viewModel: DetailCardViewModel by viewModels {
@@ -47,8 +43,6 @@ class DetailCardFragment : Fragment() {
 
     @Inject
     lateinit var detailCardViewFactory: DetailCardViewModelFactory.Factory
-
-
 
 
     override fun onAttach(context: Context) {
